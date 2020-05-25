@@ -3,10 +3,13 @@ package nl.syntouch.api.beerservice.service;
 import nl.syntouch.api.beerservice.model.Beer;
 import nl.syntouch.api.beerservice.repository.BeerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 public class BeerService {
 
     private final BeerRepository beerRepository;
@@ -19,7 +22,11 @@ public class BeerService {
         beerRepository.save(beer);
     }
 
-    public List<Beer> getBeer() {
-        return beerRepository.findAll();
+    public List<Beer> getBeer(OffsetDateTime offsetDateTime) {
+        return beerRepository.findAllByBrewDateBefore(offsetDateTime);
+    }
+
+    public void deleteBeerByName(String name) {
+        beerRepository.deleteByName(name);
     }
 }

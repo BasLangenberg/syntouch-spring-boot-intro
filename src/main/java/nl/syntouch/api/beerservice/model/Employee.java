@@ -5,24 +5,22 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 @Entity
 @Data
-public class Review {
-
+public class Employee {
     @Id
     @GeneratedValue
     private Long id;
 
     @NotNull
-    private UUID userId;
+    private String firstname;
 
-    @Max(5)
+    private String middlename;
+
     @NotNull
-    private Integer stars;
+    private String lastname;
 
-    private String description;
+    private int points;
 }

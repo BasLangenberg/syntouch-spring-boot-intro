@@ -8,31 +8,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Table;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-@Data
 @Entity
-public class Beer {
+@Data
+@Table(name = "beer_order")
+public class Order {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @NotNull
-    private String name;
+    private OffsetDateTime orderDate;
 
-    @NotNull
-    private Integer quantity;
-
-    @NotNull
-    private OffsetDateTime brewDate;
-
-    private int price;
+    private Long employeeId;
 
     @OneToMany(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "BEER_ID")
-    List<Review> reviews;
-
+    @JoinColumn(name = "ORDER_ID")
+    private List<OrderItem> orderItems;
 }

@@ -5,8 +5,18 @@ import nl.syntouch.api.beerservice.model.Beer;
 import nl.syntouch.api.beerservice.service.BeerService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -24,12 +34,17 @@ public class BeerController {
     }
 
     @GetMapping
-    public List<BeerDto> getBeers() {
-        return modelMapper.map(beerService.getBeer(), new TypeToken<List<BeerDto>>() {}.getType());
+    public List<BeerDto> getBeers(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam OffsetDateTime offsetDateTime) {
+        return modelMapper.map(beerService.getBeer(offsetDateTime), new TypeToken<List<BeerDto>>() {}.getType());
+    }
+
+    @DeleteMapping("/{name}")
+    public void deleteBeer(@PathVariable String name) {
+        beerService.deleteBeerByName(name);
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public void postBeer(@RequestBody BeerDto beerDto) {
+    public void postBeer(@Valid @RequestBody BeerDto beerDto) {
         beerService.saveBeer(modelMapper.map(beerDto, Beer.class));
     }
 
