@@ -1,6 +1,7 @@
 package nl.syntouch.api.beerservice.model;
 
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

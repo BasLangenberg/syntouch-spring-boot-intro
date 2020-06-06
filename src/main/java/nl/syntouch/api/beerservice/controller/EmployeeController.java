@@ -27,7 +27,7 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public EmployeeDto getEmployee() {
+    public List<EmployeeDto> getEmployee() {
         return modelMapper.map(employeeService.getEmployee(), new TypeToken<List<EmployeeDto>>() {
         }.getType());
     }

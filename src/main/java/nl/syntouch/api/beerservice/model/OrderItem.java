@@ -13,7 +13,6 @@ public class OrderItem {
     @GeneratedValue
     private Long id;
 
-
-
-    private Integer quantity;
+    public Long beerId;
+    public Integer quantity;
 }

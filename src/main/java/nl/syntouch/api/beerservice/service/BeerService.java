@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,6 +25,10 @@ public class BeerService {
 
     public List<Beer> getBeer(OffsetDateTime offsetDateTime) {
         return beerRepository.findAllByBrewDateBefore(offsetDateTime);
+    }
+
+    public Optional<Beer> getBeerById(long id) {
+        return beerRepository.findById(id);
     }
 
     public void deleteBeerByName(String name) {
