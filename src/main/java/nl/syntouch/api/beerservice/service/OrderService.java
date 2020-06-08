@@ -42,7 +42,8 @@ public class OrderService {
             throw new RuntimeException("Employee not found");
         }
 
-        // Is er genoeg Beer.getQuantity?
+
+        // Is er genoeg voorraad, en heeft de employee genoeg punten?
         boolean enoughStock = true;
         List<OrderItem> orderItems = order.getOrderItems();
         for (OrderItem ord : orderItems){
@@ -54,12 +55,29 @@ public class OrderService {
             }
         }
 
+
+
         // Error handling to be improved
         if (!enoughStock) {
             throw new RuntimeException("Insufficient beer");
         }
 
-        // update de beer quantity
+        // Heeft de employee genoeg punten?
+        int requiredPoints = 0;
+        for(OrderItem ord : orderItems){
+            requiredPoints += beerService.getBeerById(ord.beerId).get().getPrice();
+        };
+
+
+        // update all values
+        for (int i = 0; i<emp.size(); i++) {
+            if (emp.get(i).getId() == order.getEmployeeId()){
+                emp.get(i).setPoints(emp.get(i).getPoints() - requiredPoints);
+                employeeService.saveEmployee(emp.get(i));
+                break;
+            }
+        }
+
         for(OrderItem ord : orderItems){
 
             // TIL java.Optional
@@ -67,6 +85,7 @@ public class OrderService {
 
             beer.setQuantity(beer.getQuantity() - ord.getQuantity());
             beerService.saveBeer(beer);
+
         }
 
         // save de order

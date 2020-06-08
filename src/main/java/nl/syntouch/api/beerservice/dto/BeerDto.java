@@ -17,5 +17,8 @@ public class BeerDto {
     @NotNull
     private OffsetDateTime brewDate;
 
+    @NotNull
+    private int price;
+
     List<ReviewDto> reviews;
 }
